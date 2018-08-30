@@ -12,14 +12,54 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CarListVC" customModule="WunderCarpoolTest" customModuleProvider="target">
             <connections>
+                <outlet property="carMapView" destination="O3N-vp-v43" id="G8J-j1-Y7G"/>
+                <outlet property="carsTableView" destination="HOe-hg-3g7" id="xkk-jX-6xg"/>
                 <outlet property="view" destination="iN0-l3-epB" id="B88-yp-oJc"/>
+                <outlet property="viewToggelSegmentControl" destination="2yc-Ms-tMO" id="2w9-F7-3yw"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HOe-hg-3g7">
+                    <rect key="frame" x="0.0" y="58" width="375" height="609"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="YNi-eg-dMD"/>
+                        <outlet property="delegate" destination="-1" id="Wmq-z3-8wy"/>
+                    </connections>
+                </tableView>
+                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2yc-Ms-tMO">
+                    <rect key="frame" x="0.0" y="30" width="375" height="29"/>
+                    <segments>
+                        <segment title="List"/>
+                        <segment title="Map"/>
+                    </segments>
+                    <connections>
+                        <action selector="viewToggled:" destination="-1" eventType="valueChanged" id="mDs-13-9nG"/>
+                    </connections>
+                </segmentedControl>
+                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="O3N-vp-v43">
+                    <rect key="frame" x="0.0" y="58" width="375" height="609"/>
+                </mapView>
+            </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="HOe-hg-3g7" firstAttribute="top" secondItem="2yc-Ms-tMO" secondAttribute="bottom" id="0ZH-Ha-hE2"/>
+                <constraint firstItem="2yc-Ms-tMO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="1SM-fR-Nh8"/>
+                <constraint firstItem="O3N-vp-v43" firstAttribute="height" secondItem="HOe-hg-3g7" secondAttribute="height" id="4ku-qf-cW5"/>
+                <constraint firstItem="HOe-hg-3g7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="8f9-c4-zyc"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2yc-Ms-tMO" secondAttribute="trailing" id="EFc-he-gKV"/>
+                <constraint firstItem="2yc-Ms-tMO" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="FwZ-bD-71c"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="HOe-hg-3g7" secondAttribute="trailing" id="Sdj-56-4lM"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="HOe-hg-3g7" secondAttribute="bottom" id="Swa-ql-78Q"/>
+                <constraint firstItem="O3N-vp-v43" firstAttribute="centerY" secondItem="HOe-hg-3g7" secondAttribute="centerY" id="Xa3-qb-Vzk"/>
+                <constraint firstItem="O3N-vp-v43" firstAttribute="centerX" secondItem="HOe-hg-3g7" secondAttribute="centerX" id="aSA-7O-r2K"/>
+                <constraint firstItem="O3N-vp-v43" firstAttribute="width" secondItem="HOe-hg-3g7" secondAttribute="width" id="bD3-u1-qjA"/>
+                <constraint firstItem="2yc-Ms-tMO" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="vwF-pL-5K2"/>
+            </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
         </view>
     </objects>

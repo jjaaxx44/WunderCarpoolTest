@@ -20,18 +20,14 @@ class CarListVC: UIViewController {
     @IBOutlet weak var viewToggelSegmentControl: UISegmentedControl!
     
     var carsList: [PlacemarkViewModel] = []
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         checkLocationAuthorizationStatus()
         
-        viewToggled(viewToggelSegmentControl)
-        
-        carsTableView.register(UINib(nibName: "CarTableCell", bundle: nil), forCellReuseIdentifier: "CarTableCellIdentifier")
-        
-        carMapView.register(CarAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        setupUI()
         
         CarListFetcher.shared.FetchCars { (carList, result) in
             self.carsList = carList
@@ -48,12 +44,22 @@ class CarListVC: UIViewController {
         }
     }
     
+    private func setupUI(){
+        title = "Wunder Cars"
+        viewToggled(viewToggelSegmentControl)
+        
+        carsTableView.register(UINib(nibName: "CarTableCell", bundle: nil), forCellReuseIdentifier: "CarTableCellIdentifier")
+        
+        carMapView.register(CarAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    func checkLocationAuthorizationStatus() {
+    private func checkLocationAuthorizationStatus() {
         if CLLocationManager.authorizationStatus() == .authorizedAlways {
             carMapView.showsUserLocation = true
         } else {
@@ -62,6 +68,18 @@ class CarListVC: UIViewController {
     }
     
     @IBAction func showAllClicked(_ sender: Any) {
+        carMapView.removeOverlays(carMapView.overlays)
+        
+        if carMapView.annotations.count < carsList.count {
+            carMapView.removeAnnotations(carMapView.annotations)
+            for car in self.carsList{
+                guard let carAnnotation = car.carAnnotation else{
+                    return
+                }
+                self.carMapView.addAnnotation(carAnnotation)
+            }
+        }
+        
         self.carMapView.fitAllMarkers(shouldIncludeCurrentLocation: false)
     }
     
@@ -73,6 +91,31 @@ class CarListVC: UIViewController {
             carsTableView.isHidden = true
             mapContainer.isHidden = false
         }
+    }
+    
+    private func showDirectionInMapAPP(annotationView view: MKAnnotationView){
+        guard let latitude = view.annotation?.coordinate.latitude else{
+            return
+        }
+        guard let longitude = view.annotation?.coordinate.longitude else{
+            return
+        }
+        let directionsURL = API.APPLE_DIRECTION_URL + "\(latitude),\(longitude)"
+        guard let url = URL(string: directionsURL) else {
+            return
+        }
+        
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
+    
+    private func showDirectionWithinAPP(annotationView view: MKAnnotationView){
+        guard let coordinate = view.annotation?.coordinate else{
+            return
+        }
+        
+        carMapView.removeAnnotations(carMapView.annotations)
+        
+        carMapView.showRouteInApp(destinationCoordinate: coordinate)
     }
 }
 
@@ -93,7 +136,27 @@ extension CarListVC: UITableViewDelegate, UITableViewDataSource{
 extension CarListVC: MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
                  calloutAccessoryControlTapped control: UIControl) {
-        print("annotation view disclouser clicked!!")
+        
+        let directionOptions: UIAlertController = UIAlertController(title: "Direction", message: "How would you like us to show directions", preferredStyle: .actionSheet)
+        
+        let cancelActionButton = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+            print("Cancel")
+            directionOptions.dismiss(animated: true, completion: nil)
+        }
+        directionOptions.addAction(cancelActionButton)
+        
+        let inAppButton = UIAlertAction(title: "Within app", style: .default)
+        { _ in
+            self.showDirectionWithinAPP(annotationView: view)
+        }
+        directionOptions.addAction(inAppButton)
+        
+        let inMapAppButton = UIAlertAction(title: "In maps application", style: .default)
+        { _ in
+            self.showDirectionInMapAPP(annotationView: view)
+        }
+        directionOptions.addAction(inMapAppButton)
+        self.present(directionOptions, animated: true, completion: nil)
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
@@ -123,4 +186,12 @@ extension CarListVC: MKMapViewDelegate{
             mapView.hideAnnotations(exception: annotation)
         }
     }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay)
+        renderer.strokeColor = .blue
+        renderer.lineWidth = 3.0
+        return renderer
+    }
+
 }

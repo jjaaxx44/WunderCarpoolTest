@@ -15,4 +15,5 @@ enum Result {
 
 struct API {
     static let GET_CAR_LIST_API = "https://s3-us-west-2.amazonaws.com/wunderbucket/locations.json"
+    static let APPLE_DIRECTION_URL = "http://maps.apple.com/?saddr=Current%20Location&daddr="
 }

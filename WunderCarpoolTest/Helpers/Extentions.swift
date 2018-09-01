@@ -12,8 +12,62 @@ import MapKit
 
 extension MKMapView
 {
+    func showRouteInApp(destinationCoordinate: CLLocationCoordinate2D) {
+        
+        let sourcePlacemark = MKPlacemark(coordinate: userLocation.coordinate, addressDictionary: nil)
+        let destinationPlacemark = MKPlacemark(coordinate: destinationCoordinate, addressDictionary: nil)
+        
+        let sourceItem = MKMapItem(placemark: sourcePlacemark)
+        let destinationItem = MKMapItem(placemark: destinationPlacemark)
+        
+        let sourceAnnotation = MKPointAnnotation()
+        
+        if let location = sourcePlacemark.location {
+            sourceAnnotation.coordinate = location.coordinate
+        }
+        
+        let destinationAnnotation = MKPointAnnotation()
+        
+        if let location = destinationPlacemark.location {
+            destinationAnnotation.coordinate = location.coordinate
+        }
+        
+        showAnnotations([destinationAnnotation], animated: true )
+        
+        let directionRequest = MKDirectionsRequest()
+        directionRequest.source = sourceItem
+        directionRequest.destination = destinationItem
+        directionRequest.transportType = .automobile
+        
+        // Calculate direction
+        let directions = MKDirections(request: directionRequest)
+        
+        directions.calculate {
+            (response, error) -> Void in
+            guard let response = response else {
+                print("Error: \(String(describing: error))")
+                return
+            }
+            
+            if response.routes.count == 0{
+                return
+            }
+            
+            let route = response.routes[0]
+            
+            self.add((route.polyline), level: MKOverlayLevel.aboveRoads)
+            
+            let mapRect = route.polyline.boundingMapRect
+            self.setVisibleMapRect(mapRect, edgePadding: UIEdgeInsetsMake(10, 10, 10, 10), animated: true)
+
+        }
+    }
+
     func hideAnnotations(exception : MKAnnotation) {
         for annotation in annotations {
+            if annotation is MKUserLocation{
+                continue
+            }
             if !exception.isEqual(annotation){
                 view(for: annotation)?.isHidden = true
             }
@@ -50,7 +104,7 @@ extension MKMapView
                 }
             }
             
-            setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsetsMake(8, 8, 8, 8), animated: true)
+            setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsetsMake(10, 10, 10, 10), animated: true)
         }
     }
 }

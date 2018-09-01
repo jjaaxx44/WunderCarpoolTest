@@ -12,17 +12,26 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var carListVC:CarListVC?
-    
+    var carListVC:CarListVC!
+    var navController:UINavigationController!
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.backgroundColor = UIColor.black
         
+        //To set navigation bar appearance
+        UINavigationBar.appearance().barTintColor = UIColor.init(red: 76/255.0, green: 76/255.0, blue: 76/255.0, alpha: 1);
+        //title & icon color
+        UINavigationBar.appearance().tintColor = UIColor.white
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white]
+
         carListVC = CarListVC(nibName: "CarListVC", bundle: nil)
         
-        window?.rootViewController = carListVC
+        navController = UINavigationController(rootViewController: carListVC)
+        
+        window?.rootViewController = navController
         
         window?.makeKeyAndVisible()
         

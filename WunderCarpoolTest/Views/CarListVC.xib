@@ -25,7 +25,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="HOe-hg-3g7">
-                    <rect key="frame" x="0.0" y="58" width="375" height="609"/>
+                    <rect key="frame" x="0.0" y="63" width="375" height="604"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="YNi-eg-dMD"/>
@@ -43,16 +43,16 @@
                     </connections>
                 </segmentedControl>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qC4-xI-9uB">
-                    <rect key="frame" x="-0.5" y="58" width="375" height="609"/>
+                    <rect key="frame" x="-0.5" y="63" width="375" height="604"/>
                     <subviews>
                         <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="O3N-vp-v43">
-                            <rect key="frame" x="-0.5" y="0.0" width="375" height="609"/>
+                            <rect key="frame" x="-0.5" y="0.0" width="375" height="604"/>
                             <connections>
                                 <outlet property="delegate" destination="-1" id="9iV-OX-hsK"/>
                             </connections>
                         </mapView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fz6-eR-q7W">
-                            <rect key="frame" x="282" y="555" width="73" height="34"/>
+                            <rect key="frame" x="282" y="550" width="73" height="34"/>
                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                             <state key="normal" title="Show All"/>
                             <connections>
@@ -73,7 +73,7 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="HOe-hg-3g7" firstAttribute="top" secondItem="2yc-Ms-tMO" secondAttribute="bottom" id="0ZH-Ha-hE2"/>
+                <constraint firstItem="HOe-hg-3g7" firstAttribute="top" secondItem="2yc-Ms-tMO" secondAttribute="bottom" constant="5" id="0ZH-Ha-hE2"/>
                 <constraint firstItem="2yc-Ms-tMO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="1SM-fR-Nh8"/>
                 <constraint firstItem="HOe-hg-3g7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="8f9-c4-zyc"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2yc-Ms-tMO" secondAttribute="trailing" id="EFc-he-gKV"/>

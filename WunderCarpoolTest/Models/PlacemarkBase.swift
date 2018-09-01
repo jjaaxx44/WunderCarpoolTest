@@ -12,7 +12,7 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 */
 
 import Foundation
-struct JsonBase : Codable {
+struct PlacemarkBase : Codable {
 	let placemarks : [Placemark]?
 
 	enum CodingKeys: String, CodingKey {

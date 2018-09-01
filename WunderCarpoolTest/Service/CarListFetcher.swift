@@ -20,7 +20,7 @@ class CarListFetcher {
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
             do {
                 let jsonDecoder = JSONDecoder()
-                let responseModel = try jsonDecoder.decode(JsonBase.self, from: data!)
+                let responseModel = try jsonDecoder.decode(PlacemarkBase.self, from: data!)
                 guard let placemarks = responseModel.placemarks else {
                     completionClosure([], Result.Failed)
                     return

@@ -14,6 +14,7 @@
             <connections>
                 <outlet property="carMapView" destination="O3N-vp-v43" id="G8J-j1-Y7G"/>
                 <outlet property="carsTableView" destination="HOe-hg-3g7" id="xkk-jX-6xg"/>
+                <outlet property="mapContainer" destination="qC4-xI-9uB" id="sYC-Yi-At8"/>
                 <outlet property="view" destination="iN0-l3-epB" id="B88-yp-oJc"/>
                 <outlet property="viewToggelSegmentControl" destination="2yc-Ms-tMO" id="2w9-F7-3yw"/>
             </connections>
@@ -41,23 +42,48 @@
                         <action selector="viewToggled:" destination="-1" eventType="valueChanged" id="mDs-13-9nG"/>
                     </connections>
                 </segmentedControl>
-                <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="O3N-vp-v43">
-                    <rect key="frame" x="0.0" y="58" width="375" height="609"/>
-                </mapView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qC4-xI-9uB">
+                    <rect key="frame" x="-0.5" y="58" width="375" height="609"/>
+                    <subviews>
+                        <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="O3N-vp-v43">
+                            <rect key="frame" x="-0.5" y="0.0" width="375" height="609"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="9iV-OX-hsK"/>
+                            </connections>
+                        </mapView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fz6-eR-q7W">
+                            <rect key="frame" x="282" y="555" width="73" height="34"/>
+                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                            <state key="normal" title="Show All"/>
+                            <connections>
+                                <action selector="showAllClicked:" destination="-1" eventType="touchUpInside" id="eGL-hX-m1w"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="O3N-vp-v43" firstAttribute="top" secondItem="qC4-xI-9uB" secondAttribute="top" id="Rdf-Or-aMO"/>
+                        <constraint firstAttribute="bottom" secondItem="O3N-vp-v43" secondAttribute="bottom" id="lBk-Yd-F0E"/>
+                        <constraint firstAttribute="trailing" secondItem="O3N-vp-v43" secondAttribute="trailing" id="pUj-QT-o0x"/>
+                        <constraint firstAttribute="bottom" secondItem="Fz6-eR-q7W" secondAttribute="bottom" constant="20" id="sns-37-6Sh"/>
+                        <constraint firstItem="O3N-vp-v43" firstAttribute="leading" secondItem="qC4-xI-9uB" secondAttribute="leading" id="tYH-uq-zOb"/>
+                        <constraint firstAttribute="trailing" secondItem="Fz6-eR-q7W" secondAttribute="trailing" constant="20" id="wLM-jm-KpC"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="HOe-hg-3g7" firstAttribute="top" secondItem="2yc-Ms-tMO" secondAttribute="bottom" id="0ZH-Ha-hE2"/>
                 <constraint firstItem="2yc-Ms-tMO" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="10" id="1SM-fR-Nh8"/>
-                <constraint firstItem="O3N-vp-v43" firstAttribute="height" secondItem="HOe-hg-3g7" secondAttribute="height" id="4ku-qf-cW5"/>
                 <constraint firstItem="HOe-hg-3g7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="8f9-c4-zyc"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="2yc-Ms-tMO" secondAttribute="trailing" id="EFc-he-gKV"/>
                 <constraint firstItem="2yc-Ms-tMO" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="FwZ-bD-71c"/>
+                <constraint firstItem="qC4-xI-9uB" firstAttribute="centerX" secondItem="HOe-hg-3g7" secondAttribute="centerX" id="LB3-Ql-QaP"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="HOe-hg-3g7" secondAttribute="trailing" id="Sdj-56-4lM"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="HOe-hg-3g7" secondAttribute="bottom" id="Swa-ql-78Q"/>
-                <constraint firstItem="O3N-vp-v43" firstAttribute="centerY" secondItem="HOe-hg-3g7" secondAttribute="centerY" id="Xa3-qb-Vzk"/>
-                <constraint firstItem="O3N-vp-v43" firstAttribute="centerX" secondItem="HOe-hg-3g7" secondAttribute="centerX" id="aSA-7O-r2K"/>
-                <constraint firstItem="O3N-vp-v43" firstAttribute="width" secondItem="HOe-hg-3g7" secondAttribute="width" id="bD3-u1-qjA"/>
+                <constraint firstItem="qC4-xI-9uB" firstAttribute="centerY" secondItem="HOe-hg-3g7" secondAttribute="centerY" id="X8w-PM-fjp"/>
+                <constraint firstItem="qC4-xI-9uB" firstAttribute="height" secondItem="HOe-hg-3g7" secondAttribute="height" id="iub-KH-kWD"/>
+                <constraint firstItem="qC4-xI-9uB" firstAttribute="width" secondItem="HOe-hg-3g7" secondAttribute="width" id="vIN-7y-qEt"/>
                 <constraint firstItem="2yc-Ms-tMO" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="vwF-pL-5K2"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

@@ -43,6 +43,32 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="N0o-xZ-WJb">
+                        <rect key="frame" x="226" y="64.5" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="TPv-K2-Rwo"/>
+                            <constraint firstAttribute="width" constant="20" id="lHo-wi-wx0"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Interior" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uus-VL-iMR">
+                        <rect key="frame" x="215.5" y="89.5" width="41" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="e5a-G9-HmL">
+                        <rect key="frame" x="278.5" y="64.5" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="Ddm-Wc-2Ya"/>
+                            <constraint firstAttribute="width" constant="20" id="UAE-5u-KcL"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="exterior" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uTu-2x-SFK">
+                        <rect key="frame" x="266.5" y="89.5" width="43.5" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstItem="pIt-n5-Ib6" firstAttribute="top" secondItem="Hge-ln-uta" secondAttribute="bottom" constant="5" id="1d8-fV-h1f"/>
@@ -52,17 +78,27 @@
                     <constraint firstItem="S9N-JD-Q5M" firstAttribute="top" secondItem="SR7-VJ-XP1" secondAttribute="bottom" constant="5" id="Mru-PN-C3E"/>
                     <constraint firstItem="Hge-ln-uta" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="NVE-2b-kHj"/>
                     <constraint firstItem="S9N-JD-Q5M" firstAttribute="leading" secondItem="SR7-VJ-XP1" secondAttribute="leading" id="TtI-Fm-icg"/>
+                    <constraint firstItem="e5a-G9-HmL" firstAttribute="centerX" secondItem="uTu-2x-SFK" secondAttribute="centerX" id="UN1-D3-WQ1"/>
+                    <constraint firstItem="uTu-2x-SFK" firstAttribute="leading" secondItem="uus-VL-iMR" secondAttribute="trailing" constant="10" id="Wzh-iA-m2b"/>
+                    <constraint firstAttribute="trailing" secondItem="uTu-2x-SFK" secondAttribute="trailing" constant="10" id="XfM-2Q-tJ3"/>
+                    <constraint firstItem="uus-VL-iMR" firstAttribute="centerY" secondItem="S9N-JD-Q5M" secondAttribute="centerY" id="XkL-tN-wRX"/>
+                    <constraint firstItem="uTu-2x-SFK" firstAttribute="centerY" secondItem="S9N-JD-Q5M" secondAttribute="centerY" id="bCX-0W-Xmd"/>
                     <constraint firstItem="SR7-VJ-XP1" firstAttribute="top" secondItem="pIt-n5-Ib6" secondAttribute="bottom" constant="5" id="ipl-6w-hsc"/>
                     <constraint firstAttribute="bottom" secondItem="S9N-JD-Q5M" secondAttribute="bottom" constant="5" id="mkl-rF-O5A"/>
                     <constraint firstItem="Hge-ln-uta" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="pwF-Cp-2CP"/>
+                    <constraint firstItem="uTu-2x-SFK" firstAttribute="top" secondItem="e5a-G9-HmL" secondAttribute="bottom" constant="5" id="rUh-K9-rWa"/>
                     <constraint firstItem="SR7-VJ-XP1" firstAttribute="leading" secondItem="pIt-n5-Ib6" secondAttribute="leading" id="sHf-KN-gMf"/>
+                    <constraint firstItem="N0o-xZ-WJb" firstAttribute="centerX" secondItem="uus-VL-iMR" secondAttribute="centerX" id="uCv-eI-tUd"/>
+                    <constraint firstItem="uus-VL-iMR" firstAttribute="top" secondItem="N0o-xZ-WJb" secondAttribute="bottom" constant="5" id="wQd-M0-3s1"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="addressLabel" destination="pIt-n5-Ib6" id="Ckm-DT-NiF"/>
                 <outlet property="engineTypeLabel" destination="SR7-VJ-XP1" id="UnE-vm-cz3"/>
+                <outlet property="exteriorImageView" destination="e5a-G9-HmL" id="llS-4g-8xw"/>
                 <outlet property="fuelLabel" destination="S9N-JD-Q5M" id="PYY-wz-3GI"/>
+                <outlet property="interiorImageView" destination="N0o-xZ-WJb" id="9Fg-YC-2x9"/>
                 <outlet property="nameLabel" destination="Hge-ln-uta" id="kpg-T1-4cO"/>
             </connections>
             <point key="canvasLocation" x="34" y="87.5"/>

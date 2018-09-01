@@ -14,12 +14,31 @@ class CarTableCell: UITableViewCell {
     @IBOutlet weak var fuelLabel: UILabel!
     @IBOutlet weak var engineTypeLabel: UILabel!
     
+    @IBOutlet weak var exteriorImageView: UIImageView!
+    @IBOutlet weak var interiorImageView: UIImageView!
+    
+    let goodImage = #imageLiteral(resourceName: "good")//UIImage.init(named: "good")
+    let badImage = #imageLiteral(resourceName: "bad")//UIImage.init(named: "bad")
+
     var carModelView: PlacemarkViewModel? {
         didSet {
             nameLabel.text = carModelView?.nameString
             addressLabel.text = carModelView?.addressString
             fuelLabel.text = carModelView?.fuel
             engineTypeLabel.text = carModelView?.engineTypeString
+            
+            
+            if carModelView?.exterior == "GOOD"{
+                exteriorImageView.image = goodImage
+            }else{
+                exteriorImageView.image = badImage
+            }
+            
+            if carModelView?.interior == "GOOD"{
+                interiorImageView.image = goodImage
+            }else{
+                interiorImageView.image = badImage
+            }
         }
     }
 

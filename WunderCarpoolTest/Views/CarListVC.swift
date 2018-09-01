@@ -20,6 +20,9 @@ class CarListVC: UIViewController {
     @IBOutlet weak var viewToggelSegmentControl: UISegmentedControl!
     
     var carsList: [PlacemarkViewModel] = []
+    var filteredCarsList = [PlacemarkViewModel]()
+
+    let searchController = UISearchController(searchResultsController: nil)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +55,11 @@ class CarListVC: UIViewController {
         
         carMapView.register(CarAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         
+        // Setup the Search Controller
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search place, car, pin"
+        navigationItem.searchController = searchController
     }
     
     override func didReceiveMemoryWarning() {
@@ -69,6 +77,7 @@ class CarListVC: UIViewController {
     
     @IBAction func showAllClicked(_ sender: Any) {
         carMapView.removeOverlays(carMapView.overlays)
+        searchController.isActive = false
         
         if carMapView.annotations.count < carsList.count {
             carMapView.removeAnnotations(carMapView.annotations)
@@ -121,18 +130,62 @@ class CarListVC: UIViewController {
 
 extension CarListVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if isSearching(){
+            return filteredCarsList.count
+        }
         return carsList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "CarTableCellIdentifier", for: indexPath) as! CarTableCell
         
-        let carModelView = carsList[indexPath.row]
+        let carModelView: PlacemarkViewModel
+            
+        if isSearching(){
+            carModelView = filteredCarsList[indexPath.row]
+        }else{
+            carModelView = carsList[indexPath.row]
+        }
         cell.carModelView =  carModelView
+        
         return cell
     }
 }
 
+extension CarListVC: UISearchResultsUpdating{
+    func updateSearchResults(for searchController: UISearchController) {
+        filteredCarsList = carsList.filter({( car : PlacemarkViewModel) -> Bool in
+
+            if isSearchBarEmpty() {
+                return true
+            } else {
+                return car.addressString.lowercased().contains(searchController.searchBar.text!.lowercased()) ||
+                car.nameString.lowercased().contains(searchController.searchBar.text!.lowercased())
+            }
+        })
+        carsTableView.reloadData()
+        
+        carMapView.removeAnnotations(carMapView.annotations)
+        
+        let listOfCars = isSearching() ? self.filteredCarsList : carsList
+        
+        for car in listOfCars{
+            guard let carAnnotation = car.carAnnotation else{
+                return
+            }
+            self.carMapView.addAnnotation(carAnnotation)
+        }
+    }
+    
+    func isSearchBarEmpty() -> Bool {
+        return searchController.searchBar.text?.isEmpty ?? true
+    }
+    
+    func isSearching() -> Bool {
+        return searchController.isActive && (!isSearchBarEmpty())
+    }
+
+}
 extension CarListVC: MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
                  calloutAccessoryControlTapped control: UIControl) {

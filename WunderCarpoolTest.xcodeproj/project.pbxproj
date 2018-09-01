@@ -22,6 +22,7 @@
 		5589F7682136629000F5A976 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5589F7672136629000F5A976 /* Constants.swift */; };
 		5589F76A213665A800F5A976 /* PlacemarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5589F769213665A800F5A976 /* PlacemarkViewModel.swift */; };
 		55B4FAB521364FED0071C4E1 /* CarListVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 55B4FAB421364FED0071C4E1 /* CarListVC.xib */; };
+		55D8FD7E213A819F0050AA56 /* PlacemarkBaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55D8FD7D213A819F0050AA56 /* PlacemarkBaseViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		5589F7672136629000F5A976 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		5589F769213665A800F5A976 /* PlacemarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacemarkViewModel.swift; sourceTree = "<group>"; };
 		55B4FAB421364FED0071C4E1 /* CarListVC.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CarListVC.xib; sourceTree = "<group>"; };
+		55D8FD7D213A819F0050AA56 /* PlacemarkBaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacemarkBaseViewModel.swift; sourceTree = "<group>"; };
 		55FA8B792138154600839474 /* Hamburg.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Hamburg.gpx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -127,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				5589F769213665A800F5A976 /* PlacemarkViewModel.swift */,
+				55D8FD7D213A819F0050AA56 /* PlacemarkBaseViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 				5589F7642136618500F5A976 /* Placemark.swift in Sources */,
 				556EF1812137B6D70081BAF4 /* CarAnnotation.swift in Sources */,
 				556EF17E2137A86B0081BAF4 /* CarTableCell.swift in Sources */,
+				55D8FD7E213A819F0050AA56 /* PlacemarkBaseViewModel.swift in Sources */,
 				5589F7652136618500F5A976 /* PlacemarkBase.swift in Sources */,
 				553DE60421364F5F00A75EF0 /* AppDelegate.swift in Sources */,
 				5589F76A213665A800F5A976 /* PlacemarkViewModel.swift in Sources */,

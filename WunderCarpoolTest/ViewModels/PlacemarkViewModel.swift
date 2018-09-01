@@ -18,8 +18,8 @@ class PlacemarkViewModel{
     var fuel: String = ""
     var lattitude: Double = 0.0
     var longitude: Double = 0.0
-    var exteriorImage: UIImage?
-    var interiorImage: UIImage?
+    var exterior: String = ""
+    var interior: String = ""
     var carAnnotation: CarAnnotation?
     
     //UNACCEPTABLE/GOOD
@@ -33,19 +33,11 @@ class PlacemarkViewModel{
             longitude = data.coordinates?[0] ?? 0.0
             lattitude = data.coordinates?[1] ?? 0.0
 
+            exterior = data.exterior ?? ""
+            interior = data.interior ?? ""
+            
             let carCorinates = CLLocationCoordinate2DMake(lattitude, longitude)
             carAnnotation = CarAnnotation(coordinate: carCorinates, title: nameString, subTitle: addressString)
-//            if data.exterior == "GOOD"{
-//                exteriorImage = UIImage.init(named: "")
-//            }else{
-//                exteriorImage = UIImage.init(named: "")
-//            }
-//
-//            if data.interior == "GOOD"{
-//                interiorImage = UIImage.init(named: "")
-//            }else{
-//                interiorImage = UIImage.init(named: "")
-//            }
         }
     }
     

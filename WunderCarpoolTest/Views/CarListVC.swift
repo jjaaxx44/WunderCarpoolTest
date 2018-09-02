@@ -21,9 +21,11 @@ class CarListVC: UIViewController {
     
     var carsList: [PlacemarkViewModel] = []
     var filteredCarsList = [PlacemarkViewModel]()
-
+    
     let searchController = UISearchController(searchResultsController: nil)
-
+    
+    var firstLoacationUpdateDone: Bool = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -68,7 +70,8 @@ class CarListVC: UIViewController {
     }
     
     private func checkLocationAuthorizationStatus() {
-        if CLLocationManager.authorizationStatus() == .authorizedAlways {
+        if CLLocationManager.authorizationStatus() == .authorizedAlways ||
+            CLLocationManager.authorizationStatus() == .authorizedWhenInUse{
             carMapView.showsUserLocation = true
         } else {
             locationManager.requestAlwaysAuthorization()
@@ -77,16 +80,17 @@ class CarListVC: UIViewController {
     
     @IBAction func showAllClicked(_ sender: Any) {
         carMapView.removeOverlays(carMapView.overlays)
-        searchController.isActive = false
+        carMapView.unHideAllAnnotations()
         
-        if carMapView.annotations.count < carsList.count {
-            carMapView.removeAnnotations(carMapView.annotations)
-            for car in self.carsList{
-                guard let carAnnotation = car.carAnnotation else{
-                    return
-                }
-                self.carMapView.addAnnotation(carAnnotation)
+        searchController.isActive = false
+        searchController.searchBar.text = ""
+        
+        carMapView.removeAnnotations(carMapView.annotations)
+        for car in self.carsList{
+            guard let carAnnotation = car.carAnnotation else{
+                return
             }
+            self.carMapView.addAnnotation(carAnnotation)
         }
         
         self.carMapView.fitAllMarkers(shouldIncludeCurrentLocation: false)
@@ -140,7 +144,7 @@ extension CarListVC: UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "CarTableCellIdentifier", for: indexPath) as! CarTableCell
         
         let carModelView: PlacemarkViewModel
-            
+        
         if isSearching(){
             carModelView = filteredCarsList[indexPath.row]
         }else{
@@ -155,25 +159,25 @@ extension CarListVC: UITableViewDelegate, UITableViewDataSource{
 extension CarListVC: UISearchResultsUpdating{
     func updateSearchResults(for searchController: UISearchController) {
         filteredCarsList = carsList.filter({( car : PlacemarkViewModel) -> Bool in
-
+            
             if isSearchBarEmpty() {
                 return true
             } else {
-                return car.addressString.lowercased().contains(searchController.searchBar.text!.lowercased()) ||
-                car.nameString.lowercased().contains(searchController.searchBar.text!.lowercased())
+                return car.addressString.lowercased().contains(searchController.searchBar.text!.lowercased()) || car.nameString.lowercased().contains(searchController.searchBar.text!.lowercased())
             }
         })
         carsTableView.reloadData()
         
-        carMapView.removeAnnotations(carMapView.annotations)
-        
-        let listOfCars = isSearching() ? self.filteredCarsList : carsList
-        
-        for car in listOfCars{
-            guard let carAnnotation = car.carAnnotation else{
-                return
+        if !isSearchBarEmpty() {
+            carMapView.removeAnnotations(carMapView.annotations)
+            let listOfCars = isSearching() ? self.filteredCarsList : carsList
+            
+            for car in listOfCars{
+                guard let carAnnotation = car.carAnnotation else{
+                    return
+                }
+                self.carMapView.addAnnotation(carAnnotation)
             }
-            self.carMapView.addAnnotation(carAnnotation)
         }
     }
     
@@ -184,7 +188,7 @@ extension CarListVC: UISearchResultsUpdating{
     func isSearching() -> Bool {
         return searchController.isActive && (!isSearchBarEmpty())
     }
-
+    
 }
 extension CarListVC: MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
@@ -209,14 +213,24 @@ extension CarListVC: MKMapViewDelegate{
             self.showDirectionInMapAPP(annotationView: view)
         }
         directionOptions.addAction(inMapAppButton)
-        self.present(directionOptions, animated: true, completion: nil)
+        
+        if (self.presentedViewController != nil) {
+            self.dismiss(animated: true) { () -> Void in
+                self.present(directionOptions, animated: true, completion: nil)
+            }
+        }else{
+            self.present(directionOptions, animated: true, completion: nil)
+        }
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         if userLocation.isUpdating {
             return
         }else{
-            self.carMapView.fitAllMarkers(shouldIncludeCurrentLocation: true)
+            if firstLoacationUpdateDone == false{
+                self.carMapView.fitAllMarkers(shouldIncludeCurrentLocation: true)
+                firstLoacationUpdateDone = true
+            }
         }
     }
     
@@ -225,7 +239,7 @@ extension CarListVC: MKMapViewDelegate{
             mapView.unHideAllAnnotations()
         }
     }
-
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.annotation is MKClusterAnnotation{
             guard let annotations = (view.annotation as? MKClusterAnnotation)?.memberAnnotations else{
@@ -246,5 +260,5 @@ extension CarListVC: MKMapViewDelegate{
         renderer.lineWidth = 3.0
         return renderer
     }
-
+    
 }

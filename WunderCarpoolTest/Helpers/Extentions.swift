@@ -82,7 +82,7 @@ extension MKMapView
     func fitAllMarkers(shouldIncludeCurrentLocation: Bool, annotationsToFit: [MKAnnotation] = []) {
         
         if !shouldIncludeCurrentLocation{
-            (annotationsToFit.count == 0) ? showAnnotations(annotations, animated: true) : showAnnotations(annotationsToFit, animated: true)
+            (annotationsToFit.count == 0) ? showAnnotations(annotations, animated: true) : showAnnotations(annotationsToFit, animated: false)
         }else {
             var zoomRect = MKMapRectNull
             
@@ -104,7 +104,7 @@ extension MKMapView
                 }
             }
             
-            setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsetsMake(10, 10, 10, 10), animated: true)
+            setVisibleMapRect(zoomRect, edgePadding: UIEdgeInsetsMake(10, 10, 10, 10), animated: false)
         }
     }
 }

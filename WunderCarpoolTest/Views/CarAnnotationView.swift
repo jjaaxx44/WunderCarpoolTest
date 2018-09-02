@@ -14,8 +14,8 @@ import MapKit
 class CarAnnotationView: MKAnnotationView {
     
     override var annotation: MKAnnotation? {
-        willSet {
-            guard let carAnnotaion = newValue as? CarAnnotation else {return}
+        didSet {
+            guard let carAnnotaion = annotation as? CarAnnotation else {return}
             
             canShowCallout = true
             calloutOffset = CGPoint(x: -5, y: 5)
@@ -27,6 +27,7 @@ class CarAnnotationView: MKAnnotationView {
             mapsButton.setImage(UIImage(named: "direction"), for: UIControlState())
             rightCalloutAccessoryView = mapsButton
 
+            displayPriority = .required
             
             image = UIImage(named: "custompin")
             

@@ -13,7 +13,7 @@ class CarListVC: UIViewController {
     
     let locationManager = CLLocationManager()
     let carReuseIdentifier = "CarReuseIdentifier"
-    
+
     @IBOutlet weak var mapContainer: UIView!
     @IBOutlet weak var carMapView: MKMapView!
     @IBOutlet weak var carsTableView: UITableView!
@@ -36,13 +36,8 @@ class CarListVC: UIViewController {
         
         CarListFetcher.shared.FetchCars { (carList, result) in
             self.carsList = carList
-            for car in self.carsList{
-                guard let carAnnotation = car.carAnnotation else{
-                    return
-                }
-                self.carMapView.addAnnotation(carAnnotation)
-            }
             DispatchQueue.main.async {
+                self.addAnnotationsFromList(list: self.carsList)
                 self.carsTableView.reloadData()
                 self.carMapView.fitAllMarkers(shouldIncludeCurrentLocation: false)
             }
@@ -62,6 +57,7 @@ class CarListVC: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.placeholder = "Search place, car, pin"
         navigationItem.searchController = searchController
+        searchController.searchBar.delegate = self
     }
     
     override func didReceiveMemoryWarning() {
@@ -86,13 +82,9 @@ class CarListVC: UIViewController {
         searchController.searchBar.text = ""
         
         carMapView.removeAnnotations(carMapView.annotations)
-        for car in self.carsList{
-            guard let carAnnotation = car.carAnnotation else{
-                return
-            }
-            self.carMapView.addAnnotation(carAnnotation)
-        }
         
+        addAnnotationsFromList(list: self.carsList)
+
         self.carMapView.fitAllMarkers(shouldIncludeCurrentLocation: false)
     }
     
@@ -130,6 +122,15 @@ class CarListVC: UIViewController {
         
         carMapView.showRouteInApp(destinationCoordinate: coordinate)
     }
+    
+    func addAnnotationsFromList(list: [PlacemarkViewModel]) {
+        for car in list{
+            guard let carAnnotation = car.carAnnotation else{
+                return
+            }
+            self.carMapView.addAnnotation(carAnnotation)
+        }
+    }
 }
 
 extension CarListVC: UITableViewDelegate, UITableViewDataSource{
@@ -156,7 +157,11 @@ extension CarListVC: UITableViewDelegate, UITableViewDataSource{
     }
 }
 
-extension CarListVC: UISearchResultsUpdating{
+extension CarListVC: UISearchResultsUpdating, UISearchBarDelegate{
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        addAnnotationsFromList(list: carsList)
+    }
+
     func updateSearchResults(for searchController: UISearchController) {
         filteredCarsList = carsList.filter({( car : PlacemarkViewModel) -> Bool in
             
@@ -171,13 +176,7 @@ extension CarListVC: UISearchResultsUpdating{
         if !isSearchBarEmpty() {
             carMapView.removeAnnotations(carMapView.annotations)
             let listOfCars = isSearching() ? self.filteredCarsList : carsList
-            
-            for car in listOfCars{
-                guard let carAnnotation = car.carAnnotation else{
-                    return
-                }
-                self.carMapView.addAnnotation(carAnnotation)
-            }
+            addAnnotationsFromList(list: listOfCars)
         }
     }
     
@@ -191,6 +190,7 @@ extension CarListVC: UISearchResultsUpdating{
     
 }
 extension CarListVC: MKMapViewDelegate{
+
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView,
                  calloutAccessoryControlTapped control: UIControl) {
         
